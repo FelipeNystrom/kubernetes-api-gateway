@@ -4,19 +4,19 @@ const passport = require('passport');
 const Client = require('kubernetes-client').Client;
 const namespace = process.env.namespace || 'default';
 
-const client = new Client();
-
 const start = async () => {
   try {
     const client = new Client({ version: '1.9' });
 
+    await client.loadSpec();
+
     //
     // Get all the Namespaces.
     //
-    const namespaces = await client.api.v1.namespaces.get();
-    console.log('Namespaces: ', namespaces);
+    const availableNamespaces = await client.api.v1.namespaces.get();
+    console.log('Namespaces: ', availableNamespaces);
 
-    const services = await client.api.v1.namespaces('default').services.get();
+    const services = await client.api.v1.namespaces(namespace).services.get();
     console.log('services: ', services);
   } catch (error) {
     console.log('Error from kube api', error);
