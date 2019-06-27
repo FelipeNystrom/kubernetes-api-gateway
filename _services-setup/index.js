@@ -15,10 +15,14 @@ const start = async () => {
     //
     const namespaces = await client.api.v1.namespaces.get();
     console.log('Namespaces: ', namespaces);
+
+    const services = await client.api.v1.namespaces('default').services.get();
+    console.log('services: ', services);
   } catch (error) {
     console.log('Error from kube api', error);
   }
 };
+
 module.exports = () => {
   start();
 };
