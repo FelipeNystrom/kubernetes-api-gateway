@@ -2,12 +2,15 @@ const proxy = require('express-http-proxy');
 // const kubernetes = require('kubernetes-client');
 const passport = require('passport');
 const Client = require('kubernetes-client').Client;
+const { KubeConfig } = require('kubernetes-client');
 const Request = require('kubernetes-client/backends/request');
 const namespace = process.env.namespace || 'default';
 
 const start = async () => {
   try {
-    const backend = new Request(Request.config.getInCluster());
+    const kubeconfig = new KubeConfig();
+    kubeconfig.loadFromCluster();
+    const backend = new Request({ kubeconfig });
     const client = new Client({ backend });
 
     await client.loadSpec();
