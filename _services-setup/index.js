@@ -2,24 +2,23 @@ const proxy = require('express-http-proxy');
 // const kubernetes = require('kubernetes-client');
 const passport = require('passport');
 const Client = require('kubernetes-client').Client;
-const config = require('kubernetes-client').config;
 const namespace = process.env.namespace || 'default';
 
-const client = new Client({
-  config: config.getInCluster()
-});
+const client = new Client();
 
 const start = async () => {
-  await client.loadSpec();
-  const getFun = async () => {
-    const get = await client.api.v1.namespaces(namespace).pod.get();
-    get.body.items.forEach(pod => {
-      console.log(pod);
-    });
-  };
-  await getFun();
-};
+  try {
+    const client = new Client({ version: '1.9' });
 
+    //
+    // Get all the Namespaces.
+    //
+    const namespaces = await client.api.v1.namespaces.get();
+    console.log('Namespaces: ', namespaces);
+  } catch (error) {
+    console.log('Error from kube api', error);
+  }
+};
 module.exports = () => {
   start();
 };
