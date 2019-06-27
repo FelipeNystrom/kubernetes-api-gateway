@@ -18,7 +18,10 @@ const start = async () => {
     const availableNamespaces = await client.api.v1.namespaces.get();
     console.log('Namespaces: ', availableNamespaces);
 
-    const services = await client.api.v1.namespaces(namespace).services.get();
+    const services = await client.api.v1
+      .namespaces(namespace)
+      .services()
+      .get();
     console.log('services: ', services);
   } catch (error) {
     console.log('Error from kube api', error);
