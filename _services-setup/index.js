@@ -56,7 +56,7 @@ module.exports = async server => {
               }
             },
             (req, res, next) => {
-              return proxy(`http://${serviceName}:${port}${req.url}`, {
+              return proxy(`https://${serviceName}:${port}${req.url}`, {
                 parseReqBody: !isMultipartRequest(req),
                 proxyReqPathResolver: req => {
                   return `https://${serviceName}:${port}${req.url}`;
