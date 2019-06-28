@@ -1,7 +1,5 @@
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-const fs = require('fs');
-const path = require('path');
 const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
@@ -39,10 +37,6 @@ module.exports = new JWTStrategy(options, async (jwt_payload, done) => {
 
       consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
-          // const prefix = `${topic}[${partition} | ${message.offset}] / ${
-          //   message.timestamp
-          // }`;
-
           fetchedAuthorInfo = JSON.parse(message.value.toString('utf8'));
 
           if (fetchedAuthorInfo) {

@@ -1,5 +1,5 @@
 {
-  "name": "api-gateway",
+  "name": "kubernetes-api-gateway",
   "version": "1.0.0",
   "description": "a small api gateway experiment",
   "main": "server.js",
